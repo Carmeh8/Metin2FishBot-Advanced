@@ -25,11 +25,11 @@ class PyWindow:
                 [sg.Frame('Time configuration', [
                     [sg.Text('Time in seconds')],
                    [sg.Text('Wait to put bait'),
-                    sg.Slider(range=(2, 30), key="-BAITTIME-" , orientation='v', size=(5, 20), default_value=2),
+                    sg.Slider(range=(0.01, 30), resolution=0.01, key="-BAITTIME-" , orientation='v', size=(5, 20), default_value=0.01),
                     sg.Text('Wait to throw'),
-                    sg.Slider(range=(2, 30), key="-THROWTIME-", orientation='v', size=(5, 20), default_value=2),
+                    sg.Slider(range=(0.01, 30), resolution=0.01, key="-THROWTIME-", orientation='v', size=(5, 20), default_value=0.01),
                     sg.Text('Wait to start game'),
-                    sg.Slider(range=(2, 5), key="-STARTGAME-", orientation='v', size=(5, 20), default_value=2),
+                    sg.Slider(range=(0.01, 5), resolution=0.01, key="-STARTGAME-", orientation='v', size=(5, 20), default_value=0.01),
                 ]])]]
 
     def create_tabs(self):
