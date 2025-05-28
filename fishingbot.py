@@ -66,9 +66,10 @@ class FishingBot:
 
     timer_action = time()
 
-    bait_time = 2
-    throw_time = 2
-    game_time = 2
+    # Varsayılan bekleme süreleri (güncel)
+    bait_time = 0.01
+    throw_time = 0.01
+    game_time = 0.01
 
     # This is the filter parameters, this help to find the right image
     hsv_filter = HsvFilter(*FILTER_CONFIG)
@@ -160,9 +161,9 @@ class FishingBot:
             except:
                 self.end_time = 0
 
-        self.bait_time = values['-BAITTIME-']
-        self.throw_time = values['-THROWTIME-']
-        self.game_time = values['-STARTGAME-']
+        self.bait_time = float(values['-BAITTIME-'])
+        self.throw_time = float(values['-THROWTIME-'])
+        self.game_time = float(values['-STARTGAME-'])
 
         self.wincap = WindowCapture(constants.GAME_NAME)
         self.state = 0
@@ -237,9 +238,13 @@ class FishingBot:
         if self.state == 3:
 
             if time() - self.timer_action > 15:
+                # BALIK TUTMA İŞLEMİ BURADA BİTİYOR
+                self.perform_ctrl_g_combo()
                 self.timer_action = time()
                 self.state = 0
             if time() - self.timer_action > 5 and detected_end is False:
+                # BALIK TUTMA İŞLEMİ BURADA DA BİTİYOR
+                self.perform_ctrl_g_combo()
                 self.timer_action = time()
                 self.state = 0
 
@@ -298,3 +303,18 @@ class FishingBot:
         '''
 
         return crop_img
+
+    def perform_ctrl_g_combo(self):
+        # 0.01 saniye bekle
+        import time
+        time.sleep(0.01)
+        # İlk CTRL+G tuş kombinasyonu gönder
+        pydirectinput.keyDown('ctrl')
+        pydirectinput.press('g')
+        pydirectinput.keyUp('ctrl')
+        # 0.01 saniye bekle
+        time.sleep(0.01)
+        # İkinci CTRL+G tuş kombinasyonu gönder
+        pydirectinput.keyDown('ctrl')
+        pydirectinput.press('g')
+        pydirectinput.keyUp('ctrl')
